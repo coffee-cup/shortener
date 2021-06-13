@@ -6,15 +6,18 @@ extern crate rocket;
 extern crate serde;
 
 extern crate harsh;
+extern crate redis;
 
 mod repository;
 mod shortener;
 
-use repository::Repository;
+use repository::{Cache, MemoryRepository};
 use rocket::{response::Redirect, State};
 use rocket_contrib::json::Json;
 use serde::Deserialize;
 use std::sync::RwLock;
+
+use crate::repository::RedisRepository;
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Url {
@@ -35,15 +38,18 @@ fn index() -> &'static str {
 }
 
 #[get("/<id>")]
-fn lookup(repo: State<RwLock<Repository>>, id: String) -> Result<Redirect, &'static str> {
-    match repo.read().unwrap().lookup(&id) {
-        Some(url) => Ok(Redirect::permanent(format!("{}", url))),
+fn lookup(repo: State<RwLock<RedisRepository>>, id: String) -> Result<Redirect, &'static str> {
+    let mut repo = repo.write().unwrap();
+    match repo.lookup(&id) {
+        Some(url) => Ok(Redirect::to(format!("{}", url))),
         _ => Err("Requested ID was not found."),
     }
 }
 
 #[post("/", format = "json", data = "<data>")]
-fn shorten(repo: State<RwLock<Repository>>, data: Json<Url>) -> Result<String, String> {
+fn shorten(repo: State<RwLock<RedisRepository>>, data: Json<Url>) -> Result<String, String> {
+    println!("shorten");
+
     let ref url = format!("{}", data.url);
     if !url.starts_with("https") && !url.starts_with("http") {
         return Err(format!("Not a valid URL {:?}", url));
@@ -54,8 +60,10 @@ fn shorten(repo: State<RwLock<Repository>>, data: Json<Url>) -> Result<String, S
 }
 
 fn main() {
+    let repo = RedisRepository::new().unwrap();
+
     rocket::ignite()
-        .manage(RwLock::new(Repository::new()))
+        .manage(RwLock::new(repo))
         .mount("/", routes![index, lookup, shorten])
         .launch();
 }

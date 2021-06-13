@@ -13,3 +13,4 @@ harsh = "0.2.1"
 serde_json = "1.0.64"
 serde = { version = "1.0.126", features = ["derive"] }
 rocket_contrib = { version = "0.4.10", features = ["json"] }
+redis = "0.20.1"
