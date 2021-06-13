@@ -14,6 +14,7 @@ mod shortener;
 use repository::Cache;
 use rocket::{response::Redirect, State};
 use rocket_contrib::json::Json;
+use rocket_contrib::serve::StaticFiles;
 use serde::Deserialize;
 use std::sync::RwLock;
 
@@ -22,19 +23,6 @@ use crate::repository::RedisRepository;
 #[derive(Serialize, Deserialize, Debug)]
 struct Url {
     url: String,
-}
-
-#[get("/")]
-fn index() -> &'static str {
-    "
-    USAGE
-      POST /
-          Ex: curl -H 'Content-Type: application/json' --data '{\"url\": \"https://example.com\"}' http://localhost:8000
-          It should respond with a shortened url like http://localhost:8000/gY
-      GET /<id>
-          Redirects to shortened link. Try from browser or using the example below.
-          Ex: curl -i http://localhost:8000/gY
-    "
 }
 
 #[get("/<id>")]
@@ -64,6 +52,7 @@ fn main() {
 
     rocket::ignite()
         .manage(RwLock::new(repo))
-        .mount("/", routes![index, lookup, shorten])
+        .mount("/", routes![lookup, shorten])
+        .mount("/", StaticFiles::from("public"))
         .launch();
 }
