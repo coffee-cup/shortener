@@ -11,7 +11,7 @@ extern crate redis;
 mod repository;
 mod shortener;
 
-use repository::{Cache, MemoryRepository};
+use repository::Cache;
 use rocket::{response::Redirect, State};
 use rocket_contrib::json::Json;
 use serde::Deserialize;
