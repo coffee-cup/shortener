@@ -1,9 +1,12 @@
 FROM rustlang/rust:nightly
 
-ARG PORT
+# Install node
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \
+    && apt-get install -y nodejs \
+    && npm i -g yarn
 
 ENV ROCKET_ADDRESS=0.0.0.0
-ENV ROCKET_ENV=staging
+ENV ROCKET_ENV=production
 
 WORKDIR /app
 COPY . .
