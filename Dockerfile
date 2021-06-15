@@ -12,6 +12,6 @@ WORKDIR /app
 COPY . .
 
 RUN yarn
-RUN yarn build
+RUN NODE_ENV=production yarn build
 
 CMD ROCKET_PORT=$PORT cargo run
