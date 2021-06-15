@@ -14,7 +14,7 @@
     const res = await fetch("/", { 
       method: "POST", 
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ url })
+      body: JSON.stringify({ url: url.startsWith("http") ? url : `https://${url}` })
     });
     const text = await res.text()
 
@@ -26,7 +26,7 @@
   }
 </script>
 
-<main class="bg-purple-900 min-h-screen flex flex-col items-center justify-center">
+<main class="bg-gray-900 px-4 min-h-screen flex flex-col items-center justify-center">
   <header class="text-center space-y-4 mb-8">
     <h1 class="text-white text-5xl font-bold">Link Shortener</h1>
 
@@ -39,11 +39,11 @@
   </header>
 
   {#if shortenedUrl !== ""}
-    <a class="block text-3xl font-bold font-mono text-yellow-500 underline hover:text-yellow-400" href={shortenedUrl} target="_blank">
+    <a class="block break-all text-xl md:text-3xl font-bold font-mono text-yellow-500 underline hover:text-yellow-400" href={shortenedUrl} target="_blank">
       {shortenedUrl.replace(/https?:\/\//, "")}
     </a>
   {:else if error !== ""}
-    <div class="block text-3xl font-bold font-mono text-yellow-500">
+    <div class="block text-xl md:text-3xl font-bold font-mono text-yellow-500">
       {error}
     </div>
   {:else}
