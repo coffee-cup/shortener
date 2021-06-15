@@ -36,8 +36,6 @@ fn lookup(repo: State<RwLock<RedisRepository>>, id: String) -> Result<Redirect, 
 
 #[post("/", format = "json", data = "<data>")]
 fn shorten(repo: State<RwLock<RedisRepository>>, data: Json<Url>) -> Result<String, String> {
-    println!("shorten");
-
     let ref url = format!("{}", data.url);
     if !url.starts_with("https") && !url.starts_with("http") {
         return Err(format!("Not a valid URL {:?}", url));
