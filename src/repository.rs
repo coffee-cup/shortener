@@ -1,5 +1,5 @@
 use crate::shortener::Shortener;
-use std::{collections::HashMap, env, ptr::hash};
+use std::{collections::HashMap, env};
 
 use redis::Commands;
 
@@ -62,8 +62,6 @@ impl RedisRepository {
 
 impl Cache for RedisRepository {
     fn store(&mut self, url: &str) -> String {
-        println!("HELLO");
-
         let keys: Vec<String> = self.con.keys("*").unwrap();
         let count = keys.len() as u64;
         let hashed = self.generator.encode(&[count]);

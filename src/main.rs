@@ -20,7 +20,7 @@ use rocket::{
 use rocket_contrib::json::Json;
 use rocket_contrib::serve::StaticFiles;
 use serde::Deserialize;
-use std::sync::RwLock;
+use std::{env, sync::RwLock};
 
 use crate::repository::RedisRepository;
 
@@ -47,7 +47,12 @@ fn shorten(repo: State<RwLock<RedisRepository>>, data: Json<Url>) -> Custom<Stri
     let mut repo = repo.write().unwrap();
     let id = repo.store(&url);
 
-    return Custom(Status::Ok, format!("http://localhost:8000/{}", id));
+    let base_url = match env::var("RAILWAY_STATIC_URL") {
+        Ok(val) => format!("https://{}", val),
+        Err(_e) => "http://localhost:8000".into(),
+    };
+
+    return Custom(Status::Ok, format!("{}{}", base_url, id));
 }
 
 fn main() {
