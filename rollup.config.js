@@ -17,9 +17,6 @@ export default {
   },
   plugins: [
     svelte({
-      // enable run-time checks when not in production
-      dev: !production,
-
       preprocess: sveltePreprocess({
         postcss: true,
       }),
@@ -37,7 +34,7 @@ export default {
     // https://github.com/rollup/rollup-plugin-commonjs
     resolve({
       browser: true,
-      dedupe: (importee) =>
+      dedupe: importee =>
         importee === "svelte" || importee.startsWith("svelte/"),
     }),
     commonjs(),

@@ -16,6 +16,6 @@
     "isolatedModules": true,
     "jsx": "preserve"
   },
-  "include": ["**/*.ts", "**/*.tsx"],
+  "include": ["**/*.ts", "**/*.tsx", "**/*.svelte"],
   "exclude": ["node_modules"]
 }
