@@ -47,12 +47,12 @@ fn shorten(repo: State<RwLock<RedisRepository>>, data: Json<Url>) -> Custom<Stri
     let mut repo = repo.write().unwrap();
     let id = repo.store(&url);
 
-    let base_url = match env::var("RAILWAY_STATIC_URL") {
+    let base_url = match env::var("BASE_URL") {
         Ok(val) => format!("https://{}", val),
         Err(_e) => "http://localhost:8000".into(),
     };
 
-    return Custom(Status::Ok, format!("{}{}", base_url, id));
+    return Custom(Status::Ok, format!("{}/{}", base_url, id));
 }
 
 fn main() {
