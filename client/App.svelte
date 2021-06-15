@@ -1,13 +1,60 @@
 <script lang="ts">
   import Tailwindcss from "./Tailwind.svelte"
+
+  let url = "";
+  let shortenedUrl = "";
+  let error = "";
+
+  async function handleSubmit() {
+    if (url.trim() === "") return;
+
+    shortenedUrl = "";
+    error = "";
+
+    const res = await fetch("/", { 
+      method: "POST", 
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url })
+    });
+    const text = await res.text()
+
+    if (res.ok) {
+      shortenedUrl = text;
+    } else {
+      error = text;
+    }
+  }
 </script>
 
-<h1>Link Shortener</h1>
+<main class="bg-purple-900 min-h-screen flex flex-col items-center justify-center">
+  <header class="text-center space-y-4 mb-8">
+    <h1 class="text-white text-5xl font-bold">Link Shortener</h1>
+
+    {#if shortenedUrl === ""}
+      <h2 class="text-white text-xl font-medium">Enter a URL to shorten</h2>
+    {:else}
+      <h2 class="text-white text-xl font-medium">Here you go 👇</h2>
+    {/if}
+
+  </header>
+
+  {#if shortenedUrl !== ""}
+    <a class="block text-3xl font-bold font-mono text-yellow-500 underline hover:text-yellow-400" href={shortenedUrl} target="_blank">
+      {shortenedUrl.replace(/https?:\/\//, "")}
+    </a>
+  {:else if error !== ""}
+    <div class="block text-3xl font-bold font-mono text-yellow-500">
+      {error}
+    </div>
+  {:else}
+    <form on:submit|preventDefault={handleSubmit} class="flex space-x-2 w-full max-w-lg mx-auto">
+      <input bind:value={url} class="rounded border-yellow-400 px-4 py-2 text-xl w-full flex-grow focus:outline-none focus:ring-2 focus:ring-yellow-400" placeholder="example.com" />
+
+      <button class="rounded bg-yellow-300 hover:bg-yellow-300 text-purple-900 py-2 px-4 text-base font-bold focus:outline-none focus:ring-2 focus:ring-yellow-400">Shorten!</button>
+    </form>
+  {/if}
+
+</main>
+
 
 <Tailwindcss />
-
-<style>
-  h1 {
-    color: red;
-  }
-</style>

@@ -12,7 +12,11 @@ mod repository;
 mod shortener;
 
 use repository::Cache;
-use rocket::{response::Redirect, State};
+use rocket::{
+    http::Status,
+    response::{status::Custom, Redirect},
+    State,
+};
 use rocket_contrib::json::Json;
 use rocket_contrib::serve::StaticFiles;
 use serde::Deserialize;
@@ -35,14 +39,15 @@ fn lookup(repo: State<RwLock<RedisRepository>>, id: String) -> Result<Redirect, 
 }
 
 #[post("/", format = "json", data = "<data>")]
-fn shorten(repo: State<RwLock<RedisRepository>>, data: Json<Url>) -> Result<String, String> {
+fn shorten(repo: State<RwLock<RedisRepository>>, data: Json<Url>) -> Custom<String> {
     let ref url = format!("{}", data.url);
     if !url.starts_with("https") && !url.starts_with("http") {
-        return Err(format!("Not a valid URL {:?}", url));
+        return Custom(Status::BadRequest, format!("not a valid url {:?}", url));
     }
     let mut repo = repo.write().unwrap();
     let id = repo.store(&url);
-    Ok(format!("http://localhost:8000/{}", id))
+
+    return Custom(Status::Ok, format!("http://localhost:8000/{}", id));
 }
 
 fn main() {
