@@ -48,7 +48,7 @@ fn shorten(repo: State<RwLock<RedisRepository>>, data: Json<Url>) -> Custom<Stri
     let id = repo.store(&url);
 
     let base_url = match env::var("BASE_URL") {
-        Ok(val) => format!("https://{}", val),
+        Ok(val) => format!("{}", val),
         Err(_e) => "http://localhost:8000".into(),
     };
 
