@@ -2,7 +2,7 @@
 
 Dead simple URL shortener implemented with [Rocket](https://rocket.rs) and [Svelte](https://svelte.dev/).
 
-Live at [l.jakerunzer.com](https://l.jakerunzer.com)
+Live 👉 [l.jakerunzer.com](https://l.jakerunzer.com)
 
 [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template?template=https%3A%2F%2Fgithub.com%2Fcoffee-cup%2Fshortener&envs=BASE_URL&BASE_URLDesc=URL+that+the+site+is+hosted+at)
 
