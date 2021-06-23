@@ -1,27 +1,14 @@
----
-title: Rust Rocket
-description: A Rocket webserver
-tags:
-  - rust
-  - rocket
----
+# Shortener
 
-# Rust Rocket Example
+Dead simple URL shortener implemented with [Rocket](https://rocket.rs) and [Svelte](https://svelte.dev/).
 
-This example is a [Rocket](https://rocket.rs) web server
+Live at [l.jakerunzer.com](https://l.jakerunzer.com)
 
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new?template=https%3A%2F%2Fgithub.com%2Frailwayapp%2Fexamples%2Ftree%2Fmaster%2Fexamples%2Frocket)
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template?template=https%3A%2F%2Fgithub.com%2Fcoffee-cup%2Fshortener&envs=BASE_URL&BASE_URLDesc=URL+that+the+site+is+hosted+at)
 
-## ✨ Features
+## Development
 
-- Rust
-- Rocket
-
-## 💁‍♀️ How to use
-
-- Run the server `cargo run`
-
-## 📝 Notes
-
-By default, the Rocket server is started in staging mode. You can start in
-production mode by changing `ROCKET_ENV` in the `Dockerfile`.
+- Ensure you have the [Rust toolchain install](https://rustup.rs/)
+- Install Node deps: `yarn`
+- Run both server and client in watch mode: `yarn deps`
+- Visit [localhost:8000](http://localhost:8000)
