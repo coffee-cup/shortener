@@ -2,4 +2,8 @@
   @tailwind base;
   @tailwind components;
   @tailwind utilities;
+
+  body {
+    @apply bg-background text-foreground;
+  }
 </style>
