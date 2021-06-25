@@ -2,7 +2,7 @@
   import Tailwindcss from "./Tailwind.svelte"
 
   let url = "";
-  let shortenedUrl = "asdfasdf";
+  let shortenedUrl = "";
   let error = "";
 
   async function handleSubmit() {
