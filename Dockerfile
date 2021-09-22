@@ -14,4 +14,4 @@ COPY . .
 RUN yarn
 RUN NODE_ENV=production yarn build
 
-CMD ROCKET_PORT=$PORT cargo run
+CMD ROCKET_PORT=$PORT ./target/release/rocket

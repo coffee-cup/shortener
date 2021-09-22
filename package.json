@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "concurrently -n cargo,client -c magenta,cyan \"cargo watch -x run\" \"yarn run dev:client\"",
     "dev:client": "rollup -c -w",
-    "build": "yarn build:client && cargo build",
+    "build": "yarn build:client && cargo build --release",
     "build:client": "rollup -c",
     "clean": "rm -rf public/build target"
   },
