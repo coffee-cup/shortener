@@ -10,7 +10,6 @@
 
     shortenedUrl = "";
     error = "";
-    url = ""
 
     const res = await fetch("/", { 
       method: "POST", 
@@ -28,6 +27,8 @@
 
   function handleAnother() {
     shortenedUrl = "";
+    url = ""
+    error = ""
   }
 </script>
 
