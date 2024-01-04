@@ -1,6 +1,6 @@
 # Shortener
 
-Dead simple URL shortener implemented with [Rocket](https://rocket.rs) and [Svelte](https://svelte.dev/).
+Dead simple URL shortener implemented with [Rocket](https://rocket.rs) and [Svelte](https://svelte.dev/)
 
 Live 👉 [cheryl.fun](https://cheryl.fun/)
 
